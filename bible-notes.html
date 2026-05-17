@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Scripture Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Cinzel:wght@400;600&family=Inter:wght@300;400;500&family=Lora:ital,wght@0,400;0,600;1,400&family=Merriweather:ital,wght@0,300;0,400;1,300&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Nunito:wght@300;400;600&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+:root {
+  --bg:        #faf6ed;
+  --bg2:       #f0e8d0;
+  --bg3:       #e8dfc8;
+  --border:    #d4c49a;
+  --border2:   #c0aa7a;
+  --gold:      #8b6914;
+  --gold2:     #a07d20;
+  --text:      #1a1208;
+  --text2:     #4a3b20;
+  --text3:     #8b7a5a;
+  --scr-color: #1a1208;
+  --line-h:    32px;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--bg2);
+  border-bottom: 2px solid var(--border2);
+  padding: 0 20px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.logo {
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+.header-right { display: flex; align-items: center; gap: 8px; }
+.hbtn {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px; font-weight: 500;
+  padding: 5px 14px; border-radius: 3px;
+  cursor: pointer; transition: all 0.15s;
+  border: 1px solid var(--border2);
+  background: transparent; color: var(--text2);
+}
+.hbtn:hover { border-color: var(--gold); color: var(--gold); }
+.hbtn-gold { background: var(--gold); color: #fff; border-color: var(--gold); font-weight: 600; }
+.hbtn-gold:hover { background: var(--gold2); border-color: var(--gold2); }
+
+/* lookup toggle in header */
+.lookup-toggle-btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px; font-weight: 500;
+  padding: 5px 14px; border-radius: 3px;
+  cursor: pointer; transition: all 0.15s;
+  border: 1px solid var(--border2);
+  background: transparent; color: var(--text2);
+  display: flex; align-items: center; gap: 5px;
+}
+.lookup-toggle-btn:hover { border-color: var(--gold); color: var(--gold); }
+.lookup-toggle-btn.open { background: var(--gold); color: #fff; border-color: var(--gold); }
+.toggle-arrow { font-size: 9px; transition: transform 0.25s; }
+.lookup-toggle-btn.open .toggle-arrow { transform: rotate(180deg); }
+
+/* ── FONT TOOLBAR ── */
+.font-bar {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 5px 16px;
+  display: flex; align-items: center;
+  gap: 12px; flex-shrink: 0; flex-wrap: wrap;
+}
+.fbar-group { display: flex; align-items: center; gap: 5px; }
+.fbar-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1.4px; color: var(--text3); white-space: nowrap; }
+.fbar-select {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px; color: var(--text);
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 3px; padding: 3px 7px;
+  cursor: pointer; outline: none; max-width: 165px;
+}
+.fbar-select:focus { border-color: var(--gold); }
+.fbar-sep { width: 1px; height: 16px; background: var(--border); flex-shrink: 0; }
+.sz-btn {
+  width: 22px; height: 22px; background: var(--bg);
+  border: 1px solid var(--border); border-radius: 3px;
+  cursor: pointer; font-size: 13px; font-weight: 500;
+  color: var(--text2); display: flex; align-items: center;
+  justify-content: center; transition: all 0.12s; padding: 0; line-height: 1;
+}
+.sz-btn:hover { border-color: var(--gold); color: var(--gold); }
+.sz-disp { font-size: 11px; color: var(--text3); min-width: 26px; text-align: center; }
+.bold-btn {
+  width: 26px; height: 22px; background: var(--bg);
+  border: 1px solid var(--border); border-radius: 3px;
+  cursor: pointer; font-size: 12px; font-weight: 900;
+  font-family: Georgia, serif; color: var(--text2);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.12s; padding: 0; line-height: 1;
+}
+.bold-btn:hover { border-color: var(--gold); color: var(--gold); }
+.bold-btn.on { background: #111; color: #fff; border-color: #111; }
+
+/* ── TITLE BAR ── */
+.title-bar {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 7px 20px;
+  display: flex; align-items: center; gap: 12px;
+  flex-shrink: 0;
+}
+.title-input {
+  flex: 1;
+  font-family: 'Cinzel', serif;
+  font-size: 14px; font-weight: 400;
+  color: var(--text); background: transparent;
+  border: none; outline: none; letter-spacing: 1px;
+}
+.title-input::placeholder { color: var(--text3); }
+.date-tag { font-size: 10px; color: var(--text3); white-space: nowrap; letter-spacing: 0.5px; }
+
+/* ── THREE-COLUMN CORNELL ── */
+.cornell-wrap {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 220px 1fr 1fr;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.note-col {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-right: 1px solid var(--border);
+}
+.note-col:last-child { border-right: none; }
+
+.col-head {
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--gold);
+  padding: 7px 14px 6px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+  flex-shrink: 0;
+  font-weight: 600;
+}
+
+.lined-area {
+  flex: 1;
+  resize: none;
+  border: none;
+  padding: 6px 14px 14px;
+  font-size: 14px;
+  color: var(--text);
+  line-height: var(--line-h);
+  outline: none;
+  background-color: var(--bg);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 31px,
+    var(--border) 31px,
+    var(--border) 32px
+  );
+  background-attachment: local;
+  background-origin: content-box;
+  caret-color: var(--gold);
+  overflow-y: auto;
+}
+.lined-area::placeholder { color: var(--text3); font-size: 18px; font-family: 'Inter', sans-serif; }
+
+#scripture-area {
+  font-family: 'Dancing Script', cursive;
+  font-size: 18px;
+  color: var(--scr-color);
+}
+#scripture-area::placeholder { font-family: 'Inter', sans-serif; font-size: 18px; }
+
+#breakdown-area {
+  font-family: 'Lora', serif;
+  font-size: 14px;
+}
+#breakdown-area::placeholder { font-family: 'Inter', sans-serif; font-size: 18px; }
+
+#sermon-area {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+}
+#sermon-area::placeholder { font-family: 'Inter', sans-serif; font-size: 18px; }
+
+/* ── LOOKUP DRAWER ── */
+.lookup-drawer {
+  flex-shrink: 0;
+  overflow: hidden;
+  height: 0;
+  transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-top: none;
+  display: flex;
+  flex-direction: column;
+}
+.lookup-drawer.open {
+  height: 220px;
+  border-top: 2px solid var(--border2);
+}
+.lookup-drawer.transitioning { transition: none; }
+
+.drawer-resize-handle {
+  height: 6px;
+  background: var(--bg3);
+  cursor: ns-resize;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--border);
+  user-select: none;
+}
+.drawer-resize-handle::after {
+  content: '';
+  width: 32px; height: 2px;
+  background: var(--border2);
+  border-radius: 2px;
+}
+.drawer-resize-handle:hover { background: var(--bg2); }
+.drawer-resize-handle:hover::after { background: var(--gold); }
+
+.lookup-inner {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  overflow: hidden;
+}
+
+/* Left: search + result */
+.lookup-left {
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg2);
+}
+
+.lookup-input-row {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.lookup-size-bar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+  flex-shrink: 0;
+}
+.lookup-size-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text3);
+  margin-right: 2px;
+}
+.lookup-sz-btn {
+  width: 20px; height: 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 13px; font-weight: 600;
+  color: var(--text2);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.12s; padding: 0; line-height: 1;
+}
+.lookup-sz-btn:hover { border-color: var(--gold); color: var(--gold); }
+.lookup-sz-val { font-size: 11px; color: var(--text3); min-width: 24px; text-align: center; }
+#lookup-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 8px 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+  caret-color: var(--gold);
+}
+#lookup-input::placeholder { color: var(--text3); }
+
+.lookup-go {
+  background: var(--gold);
+  border: none;
+  padding: 0 16px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.5px;
+  transition: background 0.12s;
+  font-family: 'Inter', sans-serif;
+}
+.lookup-go:hover { background: var(--gold2); }
+
+.lookup-result {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 14px;
+  font-family: 'Lora', serif;
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.7;
+}
+.lookup-result::-webkit-scrollbar { width: 3px; }
+.lookup-result::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+.lookup-ref {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.lookup-empty {
+  color: var(--text3);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-style: italic;
+}
+.lookup-actions {
+  display: flex; gap: 6px; margin-top: 8px;
+}
+.la-btn {
+  font-size: 10px; font-family: 'Inter', sans-serif;
+  background: transparent; border: 1px solid var(--border2);
+  border-radius: 3px; color: var(--text2);
+  padding: 3px 10px; cursor: pointer; transition: all 0.12s;
+}
+.la-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+/* Right: saved scriptures */
+.saved-col {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg);
+}
+.saved-head {
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--gold);
+  padding: 7px 14px 6px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+  flex-shrink: 0;
+  font-weight: 600;
+}
+.saved-tags {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 5px;
+}
+.saved-tags::-webkit-scrollbar { width: 3px; }
+.saved-tags::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+.saved-tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: 3px; padding: 3px 9px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px; color: var(--text2);
+  cursor: grab; transition: all 0.12s;
+  user-select: none;
+}
+.saved-tag:hover { border-color: var(--gold); color: var(--gold); }
+.saved-tag.dragging { opacity: 0.4; cursor: grabbing; }
+.saved-tag.drag-over { border-color: var(--gold); background: var(--bg3); }
+.tag-del { opacity: 0.4; font-size: 9px; cursor: pointer; }
+.tag-del:hover { opacity: 1; color: #c0392b; }
+.saved-empty { color: var(--text3); font-family: 'Inter', sans-serif; font-size: 11px; font-style: italic; }
+
+/* ── SESSIONS BAR ── */
+.sessions-bar {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 5px 14px;
+  display: flex; gap: 5px; align-items: center;
+  overflow-x: auto; flex-shrink: 0;
+}
+.sessions-bar::-webkit-scrollbar { height: 3px; }
+.sessions-bar::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+.sess-label {
+  font-size: 9px; text-transform: uppercase; letter-spacing: 1.2px;
+  color: var(--text3); white-space: nowrap;
+  padding-right: 8px; border-right: 1px solid var(--border); margin-right: 2px;
+}
+.sess-tab {
+  font-size: 11px; color: var(--text2);
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 3px; padding: 3px 10px;
+  cursor: pointer; white-space: nowrap;
+  transition: all 0.12s;
+  display: flex; align-items: center; gap: 6px;
+  font-family: 'Inter', sans-serif;
+}
+.sess-tab:hover { border-color: var(--gold); color: var(--gold); }
+.sess-tab.active { background: var(--bg3); border-color: var(--gold); color: var(--gold); }
+.tab-del { opacity: 0.35; cursor: pointer; font-size: 9px; }
+.tab-del:hover { opacity: 1; color: #c0392b; }
+.new-tab-btn {
+  background: transparent; border: 1px dashed var(--border2);
+  border-radius: 3px; padding: 3px 10px;
+  font-size: 11px; color: var(--text3);
+  cursor: pointer; white-space: nowrap;
+  transition: all 0.12s; font-family: 'Inter', sans-serif;
+}
+.new-tab-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 20px; right: 20px;
+  background: var(--bg2); border: 1px solid var(--border2);
+  color: var(--text); font-size: 12px;
+  padding: 9px 16px; border-radius: 4px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.2s; z-index: 999;
+  font-family: 'Inter', sans-serif;
+}
+.toast.show { opacity: 1; }
+
+/* ── TABLET (iPad) ── */
+@media (max-width: 1024px) {
+  .cornell-wrap { grid-template-columns: 180px 1fr 1fr; }
+  .font-bar { gap: 8px; padding: 5px 10px; }
+  .fbar-select { max-width: 130px; font-size: 10px; }
+  .logo { font-size: 13px; letter-spacing: 1.5px; }
+  .hbtn { padding: 5px 10px; font-size: 10px; }
+  .lookup-toggle-btn { padding: 5px 10px; font-size: 10px; }
+  .lookup-inner { grid-template-columns: 1fr 220px; }
+}
+
+/* ── PHONE ── */
+@media (max-width: 600px) {
+
+  /* Body scrolls naturally */
+  body { overflow: auto; height: auto; min-height: 100vh; }
+
+  /* Header — two rows on mobile */
+  header {
+    padding: 10px 14px;
+    height: auto;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .logo { font-size: 13px; letter-spacing: 1.5px; width: 100%; }
+  .header-right { width: 100%; justify-content: flex-end; gap: 8px; }
+  .hbtn { padding: 8px 14px; font-size: 12px; border-radius: 6px; }
+  .lookup-toggle-btn { padding: 8px 14px; font-size: 12px; border-radius: 6px; }
+  .hbtn-gold { padding: 8px 18px; }
+
+  /* Font toolbar hidden on phone — too cluttered */
+  .font-bar { display: none; }
+
+  /* Title bar */
+  .title-bar { padding: 10px 14px; }
+  .title-input { font-size: 15px; }
+  .date-tag { font-size: 10px; }
+
+  /* Cornell — tab switcher on phone */
+  .cornell-wrap {
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+    flex: none;
+  }
+
+  /* Tab bar for switching columns */
+  .mobile-tab-bar {
+    display: flex;
+    background: var(--bg2);
+    border-bottom: 2px solid var(--border2);
+    flex-shrink: 0;
+  }
+
+  .mobile-tab {
+    flex: 1;
+    padding: 10px 4px;
+    font-size: 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text3);
+    text-align: center;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.15s;
+  }
+  .mobile-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  .note-col {
+    display: none;
+    border-right: none;
+    border-bottom: none;
+    flex: none;
+  }
+  .note-col.mobile-active {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .lined-area {
+    min-height: 55vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    font-size: 16px;
+    line-height: 34px;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 33px,
+      var(--border) 33px,
+      var(--border) 34px
+    );
+  }
+
+  #scripture-area { font-size: 20px; }
+
+  /* Lookup drawer — full screen overlay on mobile */
+  .lookup-drawer.open {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 60vh !important;
+    z-index: 100;
+    border-top: 2px solid var(--border2);
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.15);
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .lookup-drawer { transition: none; }
+
+  .drawer-resize-handle {
+    height: 28px;
+    border-radius: 16px 16px 0 0;
+    background: var(--bg2);
+    cursor: pointer;
+  }
+  .drawer-resize-handle::after {
+    width: 40px; height: 4px;
+    border-radius: 4px;
+  }
+
+  .lookup-inner {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .lookup-left { border-right: none; border-bottom: 1px solid var(--border); }
+
+  #lookup-input { font-size: 16px; padding: 12px; }
+  .lookup-go { padding: 0 18px; font-size: 13px; }
+  .lookup-result { font-size: 15px; padding: 12px 14px; -webkit-overflow-scrolling: touch; }
+  .lookup-ref { font-size: 12px; }
+  .la-btn { font-size: 13px; padding: 6px 14px; border-radius: 6px; }
+
+  .saved-col { max-height: 120px; }
+  .saved-head { font-size: 9px; padding: 6px 12px 5px; }
+  .saved-tags { padding: 6px 10px; gap: 6px; }
+  .saved-tag { font-size: 12px; padding: 5px 12px; border-radius: 5px; }
+
+  /* Lookup size bar */
+  .lookup-size-bar { padding: 6px 12px; }
+  .lookup-sz-btn { width: 28px; height: 28px; font-size: 16px; border-radius: 6px; }
+  .lookup-sz-val { font-size: 13px; }
+  .lookup-size-label { font-size: 10px; }
+
+  /* Sessions bar */
+  .sessions-bar { padding: 6px 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .sess-tab { font-size: 12px; padding: 6px 12px; border-radius: 6px; min-height: 34px; }
+  .new-tab-btn { font-size: 12px; padding: 6px 12px; border-radius: 6px; min-height: 34px; }
+  .sess-label { display: none; }
+
+  /* Col headers */
+  .col-head { font-size: 10px; letter-spacing: 1.5px; padding: 8px 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">Scripture Notes</div>
+  <div class="header-right">
+    <button class="lookup-toggle-btn" id="lookup-toggle" onclick="toggleLookup()">
+      Scripture Lookup <span class="toggle-arrow">▼</span>
+    </button>
+    <button class="hbtn" onclick="exportNotes()">Export</button>
+    <button class="hbtn hbtn-gold" onclick="saveSession()">Save</button>
+  </div>
+</header>
+
+<!-- FONT TOOLBAR -->
+<div class="font-bar">
+  <div class="fbar-group">
+    <span class="fbar-label">Notes font</span>
+    <select class="fbar-select" id="notes-font-sel" onchange="applyNotesFont()">
+      <option value="'Inter', sans-serif">Inter</option>
+      <option value="'Nunito', sans-serif">Nunito</option>
+      <option value="'Lora', serif">Lora</option>
+      <option value="'Merriweather', serif">Merriweather</option>
+      <option value="'Playfair Display', serif">Playfair Display</option>
+      <option value="'EB Garamond', serif">EB Garamond</option>
+      <option value="'Source Serif 4', serif">Source Serif</option>
+      <option value="'Cormorant Garamond', serif">Cormorant Garamond</option>
+      <option value="Georgia, serif">Georgia</option>
+      <option value="'Courier New', monospace">Courier New</option>
+      <option value="'Dancing Script', cursive">Dancing Script (Cursive)</option>
+    </select>
+    <div class="fbar-group">
+      <button class="sz-btn" onclick="changeSize('notes',-1)">−</button>
+      <span class="sz-disp" id="notes-sz">14px</span>
+      <button class="sz-btn" onclick="changeSize('notes',1)">+</button>
+    </div>
+  </div>
+  <div class="fbar-sep"></div>
+  <div class="fbar-group">
+    <span class="fbar-label">Scripture font</span>
+    <select class="fbar-select" id="scripture-font-sel" onchange="applyScriptureFont()">
+      <option value="'Dancing Script', cursive">Dancing Script (Cursive)</option>
+      <option value="'Cormorant Garamond', serif">Cormorant Garamond</option>
+      <option value="'EB Garamond', serif">EB Garamond</option>
+      <option value="'Playfair Display', serif">Playfair Display</option>
+      <option value="'Lora', serif">Lora</option>
+      <option value="'Merriweather', serif">Merriweather</option>
+      <option value="'Source Serif 4', serif">Source Serif</option>
+      <option value="'Inter', sans-serif">Inter</option>
+      <option value="'Nunito', sans-serif">Nunito</option>
+      <option value="Georgia, serif">Georgia</option>
+      <option value="'Courier New', monospace">Courier New</option>
+    </select>
+    <div class="fbar-group">
+      <button class="sz-btn" onclick="changeSize('scripture',-1)">−</button>
+      <span class="sz-disp" id="scripture-sz">18px</span>
+      <button class="sz-btn" onclick="changeSize('scripture',1)">+</button>
+    </div>
+    <button class="bold-btn" id="bold-btn" onclick="toggleBold()">B</button>
+  </div>
+</div>
+
+<!-- TITLE BAR -->
+<div class="title-bar">
+  <input class="title-input" id="session-title" type="text" placeholder="Study session title…"/>
+  <div class="date-tag" id="date-tag"></div>
+</div>
+
+<!-- MOBILE TAB BAR (phone only) -->
+<div class="mobile-tab-bar" id="mobile-tab-bar" style="display:none;">
+  <div class="mobile-tab active" onclick="switchTab(0)">Scriptures</div>
+  <div class="mobile-tab" onclick="switchTab(1)">Breakdown</div>
+  <div class="mobile-tab" onclick="switchTab(2)">Sermon</div>
+</div>
+
+<!-- THREE-COLUMN CORNELL -->
+<div class="cornell-wrap">
+
+  <div class="note-col">
+    <div class="col-head">Scriptures</div>
+    <textarea class="lined-area" id="scripture-area"
+      placeholder="Write your scriptures here…&#10;&#10;e.g. Romans 1:17&#10;John 3:16&#10;Psalm 23:1"></textarea>
+  </div>
+
+  <div class="note-col">
+    <div class="col-head">Scripture Breakdown</div>
+    <textarea class="lined-area" id="breakdown-area"
+      placeholder="Break down the meaning…&#10;&#10;What does this passage mean?&#10;Key words, context, themes…"></textarea>
+  </div>
+
+  <div class="note-col">
+    <div class="col-head">Sermon Notes</div>
+    <textarea class="lined-area" id="sermon-area"
+      placeholder="Notes from the sermon…&#10;&#10;Key points, quotes, takeaways…"></textarea>
+  </div>
+
+</div>
+
+<!-- LOOKUP DRAWER (hidden by default, slides down) -->
+<div class="lookup-drawer" id="lookup-drawer">
+  <div class="drawer-resize-handle" id="drawer-resize"></div>
+  <div class="lookup-inner">
+
+    <div class="lookup-left">
+      <div class="lookup-input-row">
+        <input id="lookup-input" type="text" placeholder="Enter any reference — e.g. John 3:16, Psalm 23, Romans 8:28-30…"/>
+        <button class="lookup-go" onclick="doLookup()">Look up</button>
+      </div>
+      <div class="lookup-size-bar">
+        <span class="lookup-size-label">Text size</span>
+        <button class="lookup-sz-btn" onclick="changeLookupSize(-1)">−</button>
+        <span class="lookup-sz-val" id="lookup-sz-val">14px</span>
+        <button class="lookup-sz-btn" onclick="changeLookupSize(1)">+</button>
+      </div>
+      <div class="lookup-result" id="lookup-result">
+        <div class="lookup-empty">Enter a reference above. Any verse in the Bible works.</div>
+      </div>
+    </div>
+
+    <div class="saved-col">
+      <div class="saved-head">Saved Scriptures</div>
+      <div class="saved-tags" id="saved-tags">
+        <div class="saved-empty">Save looked-up verses here for quick access.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SESSIONS BAR -->
+<div class="sessions-bar">
+  <div class="sess-label">Sessions</div>
+  <div id="sess-tabs"></div>
+  <button class="new-tab-btn" onclick="newSession()">+ New</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let sessions       = JSON.parse(localStorage.getItem('sn_v4_sessions')  || '[]');
+let savedScriptures= JSON.parse(localStorage.getItem('sn_v4_saved')     || '[]');
+
+// Clear any pre-baked default saved scriptures that were accidentally injected
+const prebakedRefs = ['1 John 3:18-20','Romans 8:34','Romans 8:1','2 Cor. 8:9','Philippians 2:5-11','Colossians 1:28-29'];
+if (savedScriptures.length && savedScriptures.every(s => prebakedRefs.includes(s.ref))) {
+  savedScriptures = [];
+  localStorage.setItem('sn_v4_saved', '[]');
+}
+
+let currentId      = null;
+let notesFontSize  = parseInt(localStorage.getItem('sn_v4_notes_sz')    || '14');
+let scrFontSize    = parseInt(localStorage.getItem('sn_v4_scr_sz')      || '18');
+let scrBold        = localStorage.getItem('sn_v4_bold') === 'true';
+let lookupOpen     = false;
+let curRef = '', curText = '';
+
+// Date
+document.getElementById('date-tag').textContent =
+  new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
+
+// Toast
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2000);
+}
+
+function genId() { return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+
+let lookupFontSize = parseInt(localStorage.getItem('sn_v4_lookup_sz') || '14');
+
+function changeLookupSize(d) {
+  lookupFontSize = Math.min(32, Math.max(10, lookupFontSize + d));
+  document.getElementById('lookup-result').style.fontSize = lookupFontSize + 'px';
+  document.getElementById('lookup-sz-val').textContent = lookupFontSize + 'px';
+  localStorage.setItem('sn_v4_lookup_sz', lookupFontSize);
+}
+
+// ── LOOKUP DRAWER TOGGLE ──
+function toggleLookup() {
+  lookupOpen = !lookupOpen;
+  const drawer = document.getElementById('lookup-drawer');
+  const btn    = document.getElementById('lookup-toggle');
+  drawer.classList.toggle('open', lookupOpen);
+  btn.classList.toggle('open', lookupOpen);
+  if (lookupOpen) {
+    setTimeout(()=>document.getElementById('lookup-input').focus(), 310);
+  }
+}
+
+// ── LIVE LOOKUP ──
+async function doLookup() {
+  const raw = document.getElementById('lookup-input').value.trim();
+  if (!raw) return;
+  const box = document.getElementById('lookup-result');
+  box.innerHTML = '<div class="lookup-empty" style="color:var(--gold)">Looking up…</div>';
+  try {
+    const res  = await fetch(`https://bible-api.com/${encodeURIComponent(raw)}?translation=kjv`);
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    if (data.error) throw new Error();
+    const ref  = data.reference || raw.replace(/\b\w/g,c=>c.toUpperCase());
+    const text = (data.text||'').trim();
+    curRef  = ref;
+    curText = text;
+    box.innerHTML = `
+      <div class="lookup-ref">${ref} <span style="color:var(--text3);font-size:9px;letter-spacing:0">KJV</span></div>
+      <div style="margin-bottom:8px;">${text}</div>
+      <div class="lookup-actions">
+        <button class="la-btn" onclick="addToScriptures()">+ Add to Scriptures col</button>
+        <button class="la-btn" onclick="saveScripture()">⭐ Save</button>
+      </div>`;
+  } catch {
+    box.innerHTML = `<div class="lookup-empty">Not found. Try "John 3:16", "Psalm 23", or "Romans 8:1-5".</div>`;
+    curRef = ''; curText = '';
+  }
+}
+
+document.getElementById('lookup-input').addEventListener('keydown', e => { if(e.key==='Enter') doLookup(); });
+
+function addToScriptures() {
+  if (!curRef) return;
+  const ta = document.getElementById('scripture-area');
+  ta.value += (ta.value ? '\n' : '') + curRef;
+  toast(curRef + ' added to Scriptures');
+}
+
+function saveScripture() {
+  if (!curRef || savedScriptures.find(s=>s.ref===curRef)) return;
+  savedScriptures.push({ref:curRef, text:curText});
+  localStorage.setItem('sn_v4_saved', JSON.stringify(savedScriptures));
+  renderSaved();
+  toast(curRef + ' saved!');
+}
+
+function removeSaved(i) {
+  savedScriptures.splice(i, 1);
+  localStorage.setItem('sn_v4_saved', JSON.stringify(savedScriptures));
+  renderSaved();
+}
+
+function quickLoad(ref) {
+  document.getElementById('lookup-input').value = ref;
+  doLookup();
+}
+
+let dragIdx = null;
+
+function renderSaved() {
+  const box = document.getElementById('saved-tags');
+  if (!savedScriptures.length) {
+    box.innerHTML = '<div class="saved-empty">Save looked-up verses here. Drag to reorder.</div>';
+    return;
+  }
+  box.innerHTML = savedScriptures.map((s, i) => `
+    <span class="saved-tag"
+      draggable="true"
+      data-i="${i}"
+      onclick="handleTagClick(event, '${s.ref.replace(/'/g, "\\'")}')"
+      ondragstart="dragStart(event,${i})"
+      ondragover="dragOver(event,${i})"
+      ondrop="dragDrop(event,${i})"
+      ondragend="dragEnd()"
+    >
+      <span class="drag-grip" style="opacity:0.35;font-size:10px;cursor:grab;margin-right:2px;">⠿</span>
+      ${s.ref}
+      <span class="tag-del" data-i="${i}" onclick="delTag(event,${i})">✕</span>
+    </span>`).join('');
+}
+
+function handleTagClick(e, ref) {
+  if (e.target.classList.contains('tag-del') || e.target.classList.contains('drag-grip')) return;
+  quickLoad(ref);
+}
+
+function delTag(e, i) {
+  e.stopPropagation();
+  e.preventDefault();
+  removeSaved(i);
+}
+
+function dragStart(e, i) {
+  dragIdx = i;
+  setTimeout(() => {
+    const tags = document.querySelectorAll('.saved-tag');
+    if (tags[i]) tags[i].classList.add('dragging');
+  }, 0);
+}
+
+function dragOver(e, i) {
+  e.preventDefault();
+  document.querySelectorAll('.saved-tag').forEach(t => t.classList.remove('drag-over'));
+  const tags = document.querySelectorAll('.saved-tag');
+  if (tags[i]) tags[i].classList.add('drag-over');
+}
+
+function dragDrop(e, i) {
+  e.preventDefault();
+  if (dragIdx === null || dragIdx === i) return;
+  const moved = savedScriptures.splice(dragIdx, 1)[0];
+  savedScriptures.splice(i, 0, moved);
+  localStorage.setItem('sn_v4_saved', JSON.stringify(savedScriptures));
+  dragIdx = null;
+  renderSaved();
+}
+
+function dragEnd() {
+  dragIdx = null;
+  document.querySelectorAll('.saved-tag').forEach(t => {
+    t.classList.remove('dragging');
+    t.classList.remove('drag-over');
+  });
+}
+
+// ── DRAWER RESIZE ──
+(function() {
+  const handle = document.getElementById('drawer-resize');
+  const drawer = document.getElementById('lookup-drawer');
+  let dragging = false, startY = 0, startH = 0;
+
+  handle.addEventListener('mousedown', e => {
+    dragging = true;
+    startY = e.clientY;
+    startH = drawer.offsetHeight;
+    drawer.style.transition = 'none';
+    document.body.style.cursor = 'ns-resize';
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    const delta = startY - e.clientY; // drag up = bigger
+    const newH = Math.min(600, Math.max(80, startH + delta));
+    drawer.style.height = newH + 'px';
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (!dragging) return;
+    dragging = false;
+    drawer.style.transition = '';
+    document.body.style.cursor = '';
+  });
+})();
+
+// ── FONT CONTROLS ──
+function applyNotesFont() {
+  const v = document.getElementById('notes-font-sel').value;
+  document.getElementById('breakdown-area').style.fontFamily = v;
+  document.getElementById('sermon-area').style.fontFamily    = v;
+  localStorage.setItem('sn_v4_notes_font', v);
+}
+
+function applyScriptureFont() {
+  const v = document.getElementById('scripture-font-sel').value;
+  document.getElementById('scripture-area').style.fontFamily = v;
+  localStorage.setItem('sn_v4_scr_font', v);
+}
+
+function changeSize(target, d) {
+  if (target === 'notes') {
+    notesFontSize = Math.min(28, Math.max(10, notesFontSize + d));
+    document.getElementById('breakdown-area').style.fontSize = notesFontSize+'px';
+    document.getElementById('sermon-area').style.fontSize    = notesFontSize+'px';
+    document.getElementById('notes-sz').textContent          = notesFontSize+'px';
+    localStorage.setItem('sn_v4_notes_sz', notesFontSize);
+  } else {
+    scrFontSize = Math.min(32, Math.max(10, scrFontSize + d));
+    document.getElementById('scripture-area').style.fontSize = scrFontSize+'px';
+    document.getElementById('scripture-sz').textContent      = scrFontSize+'px';
+    localStorage.setItem('sn_v4_scr_sz', scrFontSize);
+  }
+}
+
+function toggleBold() {
+  scrBold = !scrBold;
+  const el  = document.getElementById('scripture-area');
+  const btn = document.getElementById('bold-btn');
+  el.style.fontWeight = scrBold ? '900' : 'normal';
+  el.style.color      = scrBold ? '#000' : 'var(--scr-color)';
+  btn.classList.toggle('on', scrBold);
+  localStorage.setItem('sn_v4_bold', scrBold);
+}
+
+function restorePrefs() {
+  const nf = localStorage.getItem('sn_v4_notes_font');
+  const sf = localStorage.getItem('sn_v4_scr_font');
+  if (nf) {
+    document.getElementById('notes-font-sel').value            = nf;
+    document.getElementById('breakdown-area').style.fontFamily = nf;
+    document.getElementById('sermon-area').style.fontFamily    = nf;
+  }
+  if (sf) {
+    document.getElementById('scripture-font-sel').value           = sf;
+    document.getElementById('scripture-area').style.fontFamily    = sf;
+  }
+  document.getElementById('breakdown-area').style.fontSize = notesFontSize+'px';
+  document.getElementById('sermon-area').style.fontSize    = notesFontSize+'px';
+  document.getElementById('notes-sz').textContent          = notesFontSize+'px';
+  document.getElementById('scripture-area').style.fontSize = scrFontSize+'px';
+  document.getElementById('scripture-sz').textContent      = scrFontSize+'px';
+  document.getElementById('lookup-result').style.fontSize = lookupFontSize + 'px';
+  document.getElementById('lookup-sz-val').textContent = lookupFontSize + 'px';
+  if (scrBold) {
+    document.getElementById('scripture-area').style.fontWeight = '900';
+    document.getElementById('scripture-area').style.color      = '#000';
+    document.getElementById('bold-btn').classList.add('on');
+  }
+}
+
+// ── SESSIONS ──
+function saveSession() {
+  const title = document.getElementById('session-title').value.trim() || 'Untitled Study';
+  const data  = {
+    id: currentId || genId(), title,
+    date:      document.getElementById('date-tag').textContent,
+    scriptures:document.getElementById('scripture-area').value,
+    breakdown: document.getElementById('breakdown-area').value,
+    sermon:    document.getElementById('sermon-area').value,
+  };
+  const idx = sessions.findIndex(s=>s.id===data.id);
+  if (idx>=0) sessions[idx]=data; else sessions.push(data);
+  currentId = data.id;
+  localStorage.setItem('sn_v4_sessions', JSON.stringify(sessions));
+  renderTabs();
+  toast('Session saved!');
+}
+
+function newSession() {
+  saveSession();
+  currentId = genId();
+  document.getElementById('session-title').value   = '';
+  document.getElementById('scripture-area').value  = '';
+  document.getElementById('breakdown-area').value  = '';
+  document.getElementById('sermon-area').value     = '';
+  renderTabs();
+}
+
+function loadSession(id) {
+  const s = sessions.find(x=>x.id===id);
+  if (!s) return;
+  currentId = s.id;
+  document.getElementById('session-title').value   = s.title;
+  document.getElementById('scripture-area').value  = s.scriptures || '';
+  document.getElementById('breakdown-area').value  = s.breakdown  || '';
+  document.getElementById('sermon-area').value     = s.sermon     || '';
+  renderTabs();
+}
+
+function deleteSession(id, e) {
+  e.stopPropagation();
+  sessions = sessions.filter(s=>s.id!==id);
+  localStorage.setItem('sn_v4_sessions', JSON.stringify(sessions));
+  if (currentId===id) {
+    currentId = sessions.length ? sessions[sessions.length-1].id : null;
+    if (currentId) loadSession(currentId);
+    else {
+      ['session-title','scripture-area','breakdown-area','sermon-area']
+        .forEach(id=>document.getElementById(id).value='');
+    }
+  }
+  renderTabs();
+}
+
+function renderTabs() {
+  document.getElementById('sess-tabs').innerHTML = sessions.map(s=>`
+    <div class="sess-tab ${s.id===currentId?'active':''}" onclick="loadSession('${s.id}')">
+      ${s.title.length>22?s.title.slice(0,22)+'…':s.title}
+      <span class="tab-del" onclick="deleteSession('${s.id}',event)">✕</span>
+    </div>`).join('');
+}
+
+function exportNotes() {
+  const title = document.getElementById('session-title').value || 'Scripture Notes';
+  const d     = document.getElementById('date-tag').textContent;
+  const sep   = '—'.repeat(32);
+  const content =
+`SCRIPTURE NOTES
+${'='.repeat(50)}
+${title}   ${d}
+${'='.repeat(50)}
+
+SCRIPTURES
+${sep}
+${document.getElementById('scripture-area').value}
+
+SCRIPTURE BREAKDOWN
+${sep}
+${document.getElementById('breakdown-area').value}
+
+SERMON NOTES
+${sep}
+${document.getElementById('sermon-area').value}
+`;
+  const a = document.createElement('a');
+  a.href  = URL.createObjectURL(new Blob([content],{type:'text/plain'}));
+  a.download = title.replace(/\s+/g,'_')+'.txt';
+  a.click();
+  toast('Exported!');
+}
+
+// ── MOBILE TAB SWITCHING ──
+function isMobile() { return window.innerWidth <= 600; }
+
+function initMobile() {
+  if (!isMobile()) return;
+  document.getElementById('mobile-tab-bar').style.display = 'flex';
+  switchTab(0);
+}
+
+function switchTab(idx) {
+  const cols = document.querySelectorAll('.note-col');
+  const tabs = document.querySelectorAll('.mobile-tab');
+  cols.forEach((c, i) => {
+    c.classList.toggle('mobile-active', i === idx);
+  });
+  tabs.forEach((t, i) => {
+    t.classList.toggle('active', i === idx);
+  });
+}
+
+// Close lookup drawer when tapping outside on mobile
+document.addEventListener('touchstart', function(e) {
+  if (!isMobile()) return;
+  const drawer = document.getElementById('lookup-drawer');
+  const toggle = document.getElementById('lookup-toggle');
+  if (lookupOpen && !drawer.contains(e.target) && !toggle.contains(e.target)) {
+    toggleLookup();
+  }
+}, { passive: true });
+
+window.addEventListener('resize', initMobile);
+
+// ── INIT ──
+restorePrefs();
+renderSaved();
+renderTabs();
+if (sessions.length) loadSession(sessions[sessions.length-1].id);
+initMobile();
+</script>
+</body>
+</html>
